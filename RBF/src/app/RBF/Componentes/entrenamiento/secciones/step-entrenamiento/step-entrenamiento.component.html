@@ -1,0 +1,132 @@
+<div class="row">
+    <div class="col-md-4" style="text-align: center;">
+        <mat-card>
+            <button mat-raised-button (click)="entrenarEvent()" color="success">
+                <mat-icon matSuffix>play_arrow</mat-icon> Comenzar
+                Entrenamiento
+            </button>
+        </mat-card>
+    </div>
+    <div class="col-md-4" style="text-align: center;">
+        <mat-card>
+            <button mat-raised-button (click)="reiniciarEntrenamiento()" color="rollback">
+                <mat-icon matSuffix>restart_alt</mat-icon> Reiniciar
+                Entrenamiento
+            </button>
+        </mat-card>
+    </div>
+    <div class="col-md-4" style="text-align: center;">
+        <mat-card>
+            <button mat-raised-button (click)="guardarPesosYUmbralesEvent()" color="save">
+                <mat-icon matSuffix>save</mat-icon> Guardar Pesos y Umbrales Óptimos
+            </button>
+        </mat-card>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-md-4" style="text-align: center;">
+        <mat-card>
+            <button mat-raised-button (click)="exportarPesosOptimos()" color="export">
+                <mat-icon matSuffix>import_export</mat-icon> Exportar Pesos
+                Óptimos
+            </button>
+        </mat-card>
+    </div>
+    <div class="col-md-4" style="text-align: center;">
+        <mat-card>
+            <button mat-raised-button (click)="exportarUmbralesOptimos()" color="export">
+                <mat-icon matSuffix>import_export</mat-icon> Exportar Umbrales
+                Óptimos
+            </button>
+        </mat-card>
+    </div>
+    <div class="col-md-4" style="text-align: center;">
+        <mat-card>
+            <button mat-raised-button (click)="eliminarPesosYUmbralesOptimos()" color="warn">
+                <mat-icon matSuffix>delete</mat-icon> Eliminar Pesos y Umbrales
+                Óptimos
+            </button>
+        </mat-card>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-md-8">
+        <mat-card>
+            <label for="archivoPesos">Tabla de Pesos Óptimos</label>
+            <div class="table-responsive mat-elevation-z8">
+                <table mat-table #sortPesosOptimos="matSort" [dataSource]="dataSourcePesosOptimos" matSort>
+                    <ng-container *ngFor="let colNamePesos of displayedColumnsPesosOptimos; let colIndexPesos = index"
+                        matColumnDef="{{colNamePesos}}">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{colNamePesos}} </th>
+                        <td mat-cell *matCellDef="let rowPesos"> {{colIndexPesos === 0 ?
+                            rowPesos.indice : rowPesos.columnas[colIndexPesos-1] === 'N/A' ?
+                            rowPesos.columnas[colIndexPesos-1] : rowPesos.columnas[colIndexPesos-1] |
+                            number:'1.1-4'}} </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsPesosOptimos"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsPesosOptimos;"></tr>
+                </table>
+                <mat-paginator #paginatorPesosOptimos [pageSizeOptions]="[5]" aria-label="Elementos por página">
+                </mat-paginator>
+            </div>
+        </mat-card>
+    </div>
+    <div class="col-md-4">
+        <mat-card>
+            <label for="archivoPesos">Tabla de Errores RMS</label>
+            <div class="table-responsive mat-elevation-z8">
+                <table mat-table #sortErrores="matSort" [dataSource]="dataSourceErrores" matSort>
+                    <ng-container *ngFor="let colNamePesos of displayedColumnsErrores; let colIndexPesos = index"
+                        matColumnDef="{{colNamePesos}}">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{colNamePesos}} </th>
+                        <td mat-cell *matCellDef="let rowError"> {{colIndexPesos === 0 ?
+                            rowError.indice : rowError.error === 'N/A' ? rowError.error :
+                            rowError.error | number:'1.1-4'}} </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsErrores"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsErrores;"></tr>
+                </table>
+                <mat-paginator #paginatorErrores [pageSizeOptions]="[5]" aria-label="Elementos por página">
+                </mat-paginator>
+            </div>
+        </mat-card>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-md-12">
+        <mat-card>
+            <label for="archivoUmbrales">Tabla de Umbrales Óptimos</label>
+            <div class="table-responsive mat-elevation-z8">
+                <table mat-table #sortUmbralesOptimos="matSort" [dataSource]="dataSourceUmbralesOptimos" matSort>
+                    <ng-container
+                        *ngFor="let colNameUmbrales of displayedColumnsUmbralesOptimos; let colIndexUmbrales = index"
+                        matColumnDef="{{colNameUmbrales}}">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{colNameUmbrales}} </th>
+                        <td mat-cell *matCellDef="let rowUmbrales"> {{rowUmbrales.valores[colIndexUmbrales] === 'N/A' ?
+                            rowUmbrales.valores[colIndexUmbrales] : rowUmbrales.valores[colIndexUmbrales] |
+                            number:'1.1-4'}} </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsUmbralesOptimos"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsUmbralesOptimos;"></tr>
+                </table>
+                <mat-paginator #paginatorUmbralesOptimos [pageSizeOptions]="[1]" aria-label="Elementos por página">
+                </mat-paginator>
+            </div>
+        </mat-card>
+    </div>
+</div>
+<br>
+<div class="row">
+    <mat-card>
+        <div id="chartErrores"></div>
+    </mat-card>
+</div>
+<br>
+<div class="row">
+    <mat-card>
+        <div id="chartSalidas"></div>
+    </mat-card>
+</div>

@@ -1,0 +1,26 @@
+.container {
+    padding-top: 3%; padding-bottom: 3%;
+}
+
+#TituloPerceptronMulticapa {
+    color: white;
+    text-align: center;
+}
+
+#TituloAprendizaje {
+    color: white;
+    text-align: center;
+}
+
+#TextoPerceptronMulticapa {
+    margin-top: 5%;
+    color: white;
+    text-align: justify;
+}
+
+.cuerpo {
+    background-image: url("../../assets/fondo.jpg");
+    background-position: 100%;
+    background-repeat: repeat-y;
+    background-size: 100%;
+}

@@ -1,0 +1,81 @@
+<div class="cuerpo">
+    <div class="container contenido" id="cuerpo">
+
+        <h1 id="TituloPerceptronMulticapa">
+            <b>Perceptron Multicapa</b>
+        </h1>
+
+        <div id="TextoPerceptronMulticapa">
+            <p>
+                La arquitectura más simple es la llamada Perceptrón Multicapa o Multilayer Perceptron (MLP), aunque
+                debemos tener en cuenta que la presencia de la palabra "perceptrón" en este nombre no es más que una
+                herencia histórica pues, de hecho, un perceptrón multicapa no está formado por perceptrones, sino por
+                neuronas sigmoideas o por neuronas con otro tipo de función de activación (ReLu, etc.), tal y como
+                veremos más adelante.
+            </p>
+            <p>
+                <li>
+                    En esta arquitectura tenemos -por convención- una capa de neuronas de entrada situada a la izquierda
+                    que, en realidad, no aplican ninguna función a los valores de entrada a la red. Es simplemente la
+                    forma
+                    que tenemos de indicar que los valores de entrada llegan de alguna forma a la red neuronal. Es
+                    decir, no
+                    son neuronas artificiales, aunque se representen como tales en el esquema anterior. En esta capa
+                    cada
+                    "neurona" recibe un único valor de entrada.
+                </li>
+            </p>
+            <p>
+                <li>
+                    A continuación, tenemos una o más capas de neuronas en las que cada neurona está conectada con todas
+                    las
+                    neuronas de la capa anterior (o, dicho con otras palabras, los valores de entrada de una neurona son
+                    todos los valores devueltos por las neuronas de la capa anterior). Son las llamadas "capas ocultas".
+                </li>
+            </p>
+            <p>
+                <li>
+                    Por último, tenemos una capa de salida formada por una o más neuronas, en función del tipo de
+                    análisis
+                    que se realice (análisis de regresión, de clasificación binaria o de clasificación multiclase).</li>
+            </p>
+        </div>
+
+        <br>
+
+        <h2 id="TituloAprendizaje">
+            <b>Características</b>
+        </h2>
+
+        <div id="TextoPerceptronMulticapa">
+            <p>
+                <li>Las funciones de transferencia de los elementos de procesado (neuronas) han de ser derivables.</li>
+            </p>
+        </div>
+
+        <br>
+
+        <h2 id="TituloAprendizaje">
+            <b>Limitaciones</b>
+        </h2>
+
+        <div id="TextoPerceptronMulticapa">
+            <li>El Perceptrón Multicapa no extrapola bien, es decir, si la red se entrena mal o de manera insuficiente,
+                las salidas pueden ser imprecisas.</li>
+            <li>La existencia de mínimos locales en la función de error dificulta considerablemente el entrenamiento,
+                pues una vez alcanzado un mínimo el entrenamiento se detiene aunque no se haya alcanzado la tasa de
+                convergencia fijada.</li>
+        </div>
+
+        <br>
+
+        <h2 id="TituloAprendizaje">
+            <b>Aplicaciones</b>
+        </h2>
+
+        <div id="TextoPerceptronMulticapa">
+            <li>El perceptrón multicapa (de aquí en adelante MLP, MultiLayer Perceptron) se utiliza para resolver
+                problemas de asociación de patrones, segmentación de imágenes, compresión de datos, etc.</li>
+        </div>
+    </div>
+</div>

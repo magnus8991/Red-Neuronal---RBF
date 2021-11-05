@@ -1,0 +1,135 @@
+<div class="row">
+    <div class="col-md-3">
+        <mat-card>
+            <label for="archivoEntradas">Cargue de Parámetros de Entrada</label>
+            <div class="form-group archivo">
+                <input type="file" name="file-0" id="file-0" class="inputfile inputfile-0"
+                    (change)="crearArchivo($event)" accept=".txt" />
+                <label for="file-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="iborrainputfile" width="20" height="17"
+                        viewBox="0 0 20 17">
+                        <path
+                            d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z">
+                        </path>
+                    </svg>
+                    <span class="iborrainputfile" id="iborrainputfile">Cargar Archivo</span>
+                </label>
+            </div>
+        </mat-card>
+    </div>
+    <div class="col-md-9">
+        <mat-card>
+            <label for="archivoEntradas">Parámetros de Entrada</label>
+            <form [formGroup]=formParametrosEntrada>
+                <div class="row" style="text-align: center;">
+                    <div class="form-group col-md-4">
+                        <mat-form-field class="example-full-width" appearance="legacy" aria-disabled="true">
+                            <mat-label>No. Entradas</mat-label>
+                            <input matInput placeholder="Numero de Entradas" name="numeroEntradas"
+                                formControlName="numeroEntradas" [readonly]="true">
+                            <mat-icon matSuffix>input</mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <mat-form-field class="example-full-width" appearance="legacy" aria-disabled="true">
+                            <mat-label>No. Salidas</mat-label>
+                            <input matInput placeholder="Numero de Salidas" name="numeroSalidas"
+                                formControlName="numeroSalidas" [readonly]="true">
+                            <mat-icon matSuffix>logout</mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <mat-form-field class="example-full-width" appearance="legacy" aria-disabled="true">
+                            <mat-label>No. Patrones</mat-label>
+                            <input matInput placeholder="Numero de Patrones" name="numeroPatrones"
+                                formControlName="numeroPatrones" [readonly]="true">
+                            <mat-icon matSuffix>view_comfy</mat-icon>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </form>
+        </mat-card>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-md-8">
+        <mat-card>
+            <label for="archivoEntradas">Tabla de Patrones</label>
+            <div class="table-responsive mat-elevation-z8">
+                <table mat-table #sort="matSort" [dataSource]="dataSource" matSort>
+                    <ng-container *ngFor="let colName of displayedColumns; let colIndex = index"
+                        matColumnDef="{{colName}}">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{colName}} </th>
+                        <td mat-cell *matCellDef="let row"> {{colIndex === 0 ?
+                            row.indice : row.valores[colIndex-1]}} </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <mat-paginator #paginator [pageSizeOptions]="[5]" aria-label="Elementos por página">
+                </mat-paginator>
+            </div>
+        </mat-card>
+    </div>
+    <div class="col-md-4">
+        <mat-card>
+            <label for="archivoEntradas">Algoritmo de Entrenamiento</label>
+            <div class="form-group" style="text-align: center;">
+                <mat-slide-toggle (ngModelChange)="toggleDelta($event)" [(ngModel)]="checkDelta">Regla Delta
+                </mat-slide-toggle>
+            </div>
+            <div class="form-group" style="text-align: center;">
+                <mat-slide-toggle (ngModelChange)="toggleDeltaModificada($event)" [(ngModel)]="checkDeltaModificada">Regla Delta
+                    Modificada
+                </mat-slide-toggle>
+            </div>
+        </mat-card>
+        <br>
+        <form [formGroup]=formParametrosEntrenamiento>
+            <mat-card>
+                <label for="archivoEntradas">Parámetros de Entrenamiento</label>
+                <div class="form-group" style="text-align: center;">
+                    <mat-form-field class="example-full-width" appearance="legacy" aria-disabled="true">
+                        <mat-label>No. Iteraciones</mat-label>
+                        <input type="number" matInput placeholder="Numero de Iteraciones" name="numeroIteraciones"
+                            formControlName="numeroIteraciones" min="1" />
+                        <mat-icon matSuffix>repeat</mat-icon>
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width" appearance="legacy" aria-disabled="true">
+                        <mat-label>Rata de Aprendizaje</mat-label>
+                        <input type="number" matInput placeholder="Rata de Aprendizaje" name="rataAprendizaje"
+                            formControlName="rataAprendizaje" min="0.0" max="1.0" step="0.1" />
+                        <mat-icon matSuffix>psychology</mat-icon>
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width" appearance="legacy" aria-disabled="true">
+                        <mat-label>Error Máx. Permitido</mat-label>
+                        <input type="number" matInput placeholder="Error Máximo Permitido" name="errorMaximoPermitido"
+                            formControlName="errorMaximoPermitido" min="0" max="1" step="0.1" />
+                        <mat-icon matSuffix>error</mat-icon>
+                    </mat-form-field>
+                </div>
+            </mat-card>
+        </form>
+    </div>
+
+
+</div>
+<br>
+<div class="row">
+    <div class="col-md-6" style="text-align: center;">
+        <mat-card>
+            <button mat-raised-button (click)="reiniciarParametrosYConfiguracion()" color="warn">
+                <mat-icon matSuffix>delete</mat-icon> Borrar Parámetros y Configuración
+            </button>
+        </mat-card>
+    </div>
+    <div class="col-md-6" style="text-align: center;">
+        <mat-card>
+            <button mat-raised-button (click)="reiniciarEntrenamiento()" color="rollback">
+                <mat-icon matSuffix>restart_alt</mat-icon> Reiniciar
+                Entrenamiento
+            </button>
+        </mat-card>
+    </div>
+</div>

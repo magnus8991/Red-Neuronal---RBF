@@ -1,0 +1,11 @@
+{
+    "configurations": [
+    {
+        "command": "npm start",
+        "name": "Perceptron Multicapa - Web",
+        "request": "launch",
+        "type": "node-terminal",
+        "cwd": "${workspaceFolder}"
+    }
+    ]
+}

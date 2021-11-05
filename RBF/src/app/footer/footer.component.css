@@ -1,0 +1,23 @@
+footer {
+	background-color:#1A1A1A;
+    color: white;
+    width: 100%; height: 200px;
+    padding-top: 1.5%;
+}
+
+.main1 { 
+    display:flex;
+    margin:0 auto;
+}
+
+a img:hover {
+    color: #fff;
+}
+
+a img {
+    margin-left: 10px;
+}
+
+.text-muted {
+    color: #FFF !important;
+}

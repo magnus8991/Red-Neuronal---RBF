@@ -1,0 +1,81 @@
+mat-icon {
+    vertical-align: -25%;
+}
+
+table {
+    width: 100%;
+  }
+
+/**********Color MatButtons**********/
+
+.mat-rollback {
+    background-color: rgb(232, 147, 21) !important;
+    color: #FFFFFF;
+}
+
+/**********File Inputs**********/
+
+.archivo {
+    text-align: center;
+}
+
+.inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.inputfile + label {
+    max-width: 80%;
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    padding: 0.625rem 1.25rem;
+}
+
+.inputfile + label svg {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+    fill: currentColor;
+    margin-top: -0.25em;
+    margin-right: 0.25em;
+}
+
+.iborrainputfile {
+	font-size:16px; 
+	font-weight:normal;
+	font-family: 'Lato';
+}
+
+/* style input-file */
+
+.inputfile-0 + label {
+    color: #fff;
+    background-color: #4f4d4a;
+}
+
+.inputfile-0 + label:hover {
+    background-color: #7a746e;
+}
+
+.inputfile-0 + label:active {
+    background-color: #a59b90;
+}
+
+/********** Slide Toggles **********/
+
+/deep/ .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+    background-color: #325ef0;
+}
+
+/deep/ .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
+    background-color: #0433d0;
+}

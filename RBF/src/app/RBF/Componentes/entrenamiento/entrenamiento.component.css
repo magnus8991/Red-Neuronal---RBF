@@ -1,0 +1,110 @@
+mat-icon {
+    vertical-align: -25%;
+}
+
+mat-stepper {
+    background-color: transparent;
+}
+
+.contenido {
+    padding-top: 2%; padding-bottom: 2%;
+    padding-left: 3%; padding-right: 3%;
+}
+
+.cuerpo {
+    background-image: url("../../../../assets/training.jpg");
+    background-position: 100%;
+    background-repeat: repeat-y;
+    background-size: 100%;
+}
+
+/**********Color MatButtons**********/
+
+.mat-success {
+    background-color: rgb(57, 123, 194) !important;
+    color: #FFFFFF;
+}
+
+.mat-save {
+    background-color: rgb(57, 194, 57) !important;
+    color: #FFFFFF;
+}
+
+.mat-export {
+    background-color: rgb(128, 136, 128) !important;
+    color: #FFFFFF;
+}
+
+.mat-rollback {
+    background-color: rgb(232, 147, 21) !important;
+    color: #FFFFFF;
+}
+
+/**********File Inputs**********/
+
+.archivo {
+    text-align: center;
+}
+
+.inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.inputfile + label {
+    max-width: 80%;
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    padding: 0.625rem 1.25rem;
+}
+
+.inputfile + label svg {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+    fill: currentColor;
+    margin-top: -0.25em;
+    margin-right: 0.25em;
+}
+
+.iborrainputfile, .iborrainputfile2 {
+	font-size:16px; 
+	font-weight:normal;
+	font-family: 'Lato';
+}
+
+/* style 1 */
+
+.inputfile-1 + label {
+    color: #fff;
+    background-color: #4f4d4a;
+}
+
+.inputfile-1 + label:hover {
+    background-color: #7a746e;
+}
+
+.inputfile-1 + label:active {
+    background-color: #a59b90;
+}
+
+/deep/ .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+    background-color: #325ef0;
+}
+
+/deep/ .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
+    background-color: #0433d0;
+}
+
+table {
+    width: 100%;
+  }

@@ -1,0 +1,30 @@
+<div class="cuerpo">
+    <div class="contenido">
+        <mat-stepper labelPosition="right" #stepper>
+            <mat-step>
+                <ng-template matStepLabel>
+                    <span>Parámetros y Algoritmo</span>
+                </ng-template>
+                <step-entradas (reloadStepPesos)="reiniciarStepPesos()"
+                    (updateParametrosEntrada)="actualizarParametrosEntrada()"
+                    (reloadTraining)="reiniciarEntrenamiento()"
+                    (reloadParamsAndConfig)="reiniciarParametrosYConfiguracion()">
+                </step-entradas>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel><span>Configuración de la Red</span></ng-template>
+                <step-configuracion-red (reloadTraining)="reiniciarEntrenamiento()" >
+                </step-configuracion-red>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel><span>Pesos y Umbrales</span></ng-template>
+                <step-pesos-y-umbrales (reloadTraining)="reiniciarEntrenamiento()"></step-pesos-y-umbrales>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel><span>Entrenar</span></ng-template>
+                <step-entrenamiento (reloadTraining)="reiniciarEntrenamiento()" (trainingNetwork)="entrenar()"
+                    (saveWeightAndUmbrals)="guardarPesosYUmbrales()"></step-entrenamiento>
+            </mat-step>
+        </mat-stepper>
+    </div>
+</div>
