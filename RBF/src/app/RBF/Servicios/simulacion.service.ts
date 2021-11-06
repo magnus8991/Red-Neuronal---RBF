@@ -56,11 +56,10 @@ export class SimulacionService {
     return listValores;
   }
 
-  simular(entradas: any[], numeroSalidas: number, pesosOptimos: MatrizPesosSinapticos, umbrales: Umbrales, tipoDato: string): number[] {
+  simular(entradas: any[], numeroSalidas: number, pesosOptimos: MatrizPesosSinapticos, umbrales: Umbrales): number[] {
     let errores = this.validarEntradas(entradas);
     if (errores > 0) {
-      this.toastr.warning(tipoDato == 'binario' ? 'Verifique que todas las entradas del patrón estén escritas correctamente y/o su valor sea 1 o 0':
-      'Verifique que todas las entradas del patrón estén escritas correctamente y/o su valor sea 1 o -1', '¡Advertencia!');
+      this.toastr.warning('Verifique que todas las entradas del patrón estén escritas correctamente', '¡Advertencia!');
       return;
     }
     let salidasRed: number[] = [];
@@ -72,7 +71,7 @@ export class SimulacionService {
         indiceEntrada += 1;
       })
       salidaSoma = salidaSoma - umbrales.valores[i];
-      let salidaRed = this.entrenamientoService.funcionActivacion(salidaSoma, tipoDato);
+      let salidaRed = this.entrenamientoService.funcionBaseRadial(salidaSoma);
       salidasRed.push(salidaRed);
     }
     this.toastr.info('Simulación realizada con éxito', 'Operación exitosa')

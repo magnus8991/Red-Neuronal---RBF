@@ -11,24 +11,25 @@ export class EntrenamientoService {
 
   constructor() { }
 
-  obtenerPesosYUmbralesNuevos(parametrosEntrada: ParametrosEntrada, pesosYUmbrales, rataAprendizaje: number, rataDinamica: number,
-    erroresLineales: number[], entradas: number[], checkDelta: boolean): any {
+  obtenerPesosYUmbralesNuevos(parametrosEntrada: ParametrosEntrada, pesosYUmbrales, erroresLineales: number[], entradas: number[]): any {
     for (let i = 0; i < parametrosEntrada.numeroSalidas; i++) {
       let indiceEntradas = 0;
       pesosYUmbrales.pesosOptimos.filas.forEach(fila => {
-        const pesoNuevo = fila.columnas[i] + (rataAprendizaje * erroresLineales[i] * entradas[indiceEntradas]) + (checkDelta ? 0 :
-          rataDinamica * (fila.columnas[i] - pesosYUmbrales.pesosAnteriores.filas[indiceEntradas].columnas[i]));
+        const pesoNuevo = fila.columnas[i] + (erroresLineales[i] * entradas[indiceEntradas]) + (
+          (fila.columnas[i] - pesosYUmbrales.pesosAnteriores.filas[indiceEntradas].columnas[i]));
         pesosYUmbrales.pesosAnteriores.filas[indiceEntradas].columnas[i] = fila.columnas[i];
         fila.columnas[i] = pesoNuevo;
         indiceEntradas += 1;
       });
-      const umbralNuevo = pesosYUmbrales.umbrales.valores[i] + (rataAprendizaje * erroresLineales[i] * entradas[0]) + (checkDelta ? 0 :
-        rataDinamica * (pesosYUmbrales.umbrales.valores[i] - pesosYUmbrales.umbralesAnteriores.valores[i]));
+      const umbralNuevo = pesosYUmbrales.umbrales.valores[i] + (erroresLineales[i] * entradas[0]) + (
+        (pesosYUmbrales.umbrales.valores[i] - pesosYUmbrales.umbralesAnteriores.valores[i]));
       pesosYUmbrales.umbralesAnteriores.valores[i] = pesosYUmbrales.umbrales.valores[i];
       pesosYUmbrales.umbrales.valores[i] = umbralNuevo;
     }
-    return { pesosOptimos: pesosYUmbrales.pesosOptimos, umbrales: pesosYUmbrales.umbrales,
-      pesosAnteriores: pesosYUmbrales.pesosAnteriores, umbralesAnteriores: pesosYUmbrales.umbralesAnteriores };
+    return {
+      pesosOptimos: pesosYUmbrales.pesosOptimos, umbrales: pesosYUmbrales.umbrales,
+      pesosAnteriores: pesosYUmbrales.pesosAnteriores, umbralesAnteriores: pesosYUmbrales.umbralesAnteriores
+    };
   }
 
   calcularErroresLineales(parametrosEntrada: ParametrosEntrada, pesosSinapticos: MatrizPesosSinapticos, umbrales: Umbrales,
@@ -44,23 +45,15 @@ export class EntrenamientoService {
         indicePatrones += 1;
       });
       salidaSoma = salidaSoma - umbrales.valores[i];
-      const salidaRed = this.funcionActivacion(salidaSoma, parametrosEntrada.tipoDato);
+      const salidaRed = this.funcionBaseRadial(salidaSoma);
       salidasRed.push(salidaRed);
       erroresLineales.push(salidaDeseada - salidaRed);
     }
     return { erroresLineales: erroresLineales, salidas: salidasRed };
   }
 
-  funcionActivacion(salidaSoma: number, tipoDato: string): number {
-    return this.funcionEscalon1(salidaSoma, tipoDato);
-  }
-
-  funcionEscalon1(salidaSoma: number, tipoDato: string): number {
-    return salidaSoma >= 0 ? 1 : tipoDato === 'binario' ? 0 : -1;
-  }
-
-  funcionEscalon2(salidaSoma: number, tipoDato: string): number {
-    return salidaSoma > 0 ? 1 : tipoDato === 'binario' ? 0 : -1;
+  funcionBaseRadial(theta: number): number {
+    return Math.pow(theta,2) * Math.log(theta);
   }
 
   errorPatron(erroresLineales: number[], numeroSalidas: number) {

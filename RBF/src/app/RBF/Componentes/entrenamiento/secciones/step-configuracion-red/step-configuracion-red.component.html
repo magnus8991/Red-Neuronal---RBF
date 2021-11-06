@@ -1,42 +1,23 @@
 <div class="row" style="margin-top: 20px">
   <div class="col-md-12">
-    <form [formGroup]=formConfiguracionRed (ngSubmit)="onSubmit()">
+    <form [formGroup]=formConfiguracionRed>
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6">
           <mat-card>
-            <label for="configuracionRed">Numero de capas intermedias</label>
+            <label for="configuracionRed">Numero de centros radiales</label>
             <div class="form-group" style="text-align: center;">
               <mat-form-field class="example-full-width" appearance="legacy" aria-disabled="true">
-                <input type="number" matInput placeholder="Numero de capas intermedias"
-                  formControlName="numeroCapasIntermedias" name="numeroCapasIntermedias" min="1"
-                  (ngModelChange)="generarCamposCapaIntermedia($event)" />
+                <input type="number" matInput placeholder="Numero de centros radiales"
+                  formControlName="numeroCentrosRadiales" name="numeroCentrosRadiales" min="1"
+                  (ngModelChange)="generarCentrosRadiales($event)" />
                 <mat-icon matSuffix>layers</mat-icon>
               </mat-form-field>
             </div>
           </mat-card>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6" style="text-align: center;">
           <mat-card>
-            <label for="funcionActivacionCapaSalida">Funcion de activación de la capa de
-              salida</label>
-            <div class="form-group" style="text-align: center;">
-              <mat-form-field class="example-full-width" appearance="legacy" aria-disabled="true">
-                <mat-label>Funcion de activacion</mat-label>
-                <select matNativeControl formControlName="funcionActivacionCapaSalida"
-                  name="funcionActivacionCapaSalida">
-                  <option [value]="0" selected>Seleccione...</option>
-                  <option *ngFor="let funcionActivacion of funcionesActivacionCapaSalida" [value]="funcionActivacion">
-                    {{funcionActivacion}}
-                  </option>
-                </select>
-                <mat-icon matSuffix>notifications</mat-icon>
-              </mat-form-field>
-            </div>
-          </mat-card>
-        </div>
-        <div class="col-md-4" style="text-align: center;">
-          <mat-card>
-            <button mat-raised-button (click)="reiniciarStepConfiguracionRed()" color="warn">
+            <button mat-raised-button (click)="actualizarStepConfiguracionRed()" color="warn">
               <mat-icon matSuffix>delete</mat-icon> Borrar Configuración
             </button>
             <br><br>
@@ -45,34 +26,6 @@
               Entrenamiento
             </button>
           </mat-card>
-        </div>
-      </div>
-      <br>
-        <div class="row" formArrayName="capasIntermedias">
-          <div *ngFor="let capa of arrayConfiguracionCapasIntermedias.controls; let i = index" class="col-md-3">
-             <div [formGroupName]="i">
-            <mat-card style="margin-bottom: 5%;">
-              <label for="configuracionRed"> Capa intermedia {{i+1}}</label>
-              <div style="text-align: center;">
-                <mat-form-field class="example-full-width" appearance="legacy" aria-disabled="true">
-                  <mat-label>Numero de neuronas</mat-label>
-                  <input min="1" type="number" matInput placeholder="Numero de neuronas" formControlName="numeroNeuronas" />
-                  <mat-icon matSuffix>tag</mat-icon>
-                </mat-form-field>
-                <mat-form-field class="example-full-width" appearance="legacy" aria-disabled="true">
-                  <mat-label>Funcion de activacion</mat-label>
-                  <select matNativeControl formControlName="funcionActivacion" name="funcionActivacion{{i}}" >
-                    <option value="0" selected>Seleccione...</option>
-                    <option *ngFor="let funcionActivacion of funcionesActivacionCapaIntermedia"
-                      [value]="funcionActivacion">
-                      {{funcionActivacion}}
-                    </option>
-                  </select>
-                  <mat-icon matSuffix>notifications</mat-icon>
-                </mat-form-field>
-              </div>
-            </mat-card>
-          </div>
         </div>
       </div>
     </form>

@@ -3,15 +3,16 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
-import { ConfiguracionRed } from 'src/app/PerceptronMulticapa/Modelos/configuracionRed';
-import { Fila } from 'src/app/PerceptronMulticapa/Modelos/fila';
-import { Grafica } from 'src/app/PerceptronMulticapa/Modelos/grafica';
-import { MatrizPesosSinapticos } from 'src/app/PerceptronMulticapa/Modelos/matrizPesosSinapticos';
-import { ParametrosEntrada } from 'src/app/PerceptronMulticapa/Modelos/parametrosEntrada';
-import { TablaErroresRMS } from 'src/app/PerceptronMulticapa/Modelos/tablaErroresRms';
-import { Umbrales } from 'src/app/PerceptronMulticapa/Modelos/umbrales';
-import { EntrenamientoService } from 'src/app/PerceptronMulticapa/Servicios/entrenamiento.service';
-import { ParametrosEntrenamientoService } from 'src/app/PerceptronMulticapa/Servicios/parametrosEntrenamiento.service';
+import { ConfiguracionRed } from 'src/app/RBF/Modelos/configuracionRed';
+import { DistanciaPorPatron } from 'src/app/RBF/Modelos/distanciaPorPatron';
+import { Fila } from 'src/app/RBF/Modelos/fila';
+import { Grafica } from 'src/app/RBF/Modelos/grafica';
+import { MatrizPesosSinapticos } from 'src/app/RBF/Modelos/matrizPesosSinapticos';
+import { ParametrosEntrada } from 'src/app/RBF/Modelos/parametrosEntrada';
+import { TablaErroresRMS } from 'src/app/RBF/Modelos/tablaErroresRms';
+import { Umbrales } from 'src/app/RBF/Modelos/umbrales';
+import { EntrenamientoService } from 'src/app/RBF/Servicios/entrenamiento.service';
+import { ParametrosEntrenamientoService } from 'src/app/RBF/Servicios/parametrosEntrenamiento.service';
 
 
 @Component({
@@ -65,7 +66,7 @@ export class StepEntrenamientoComponent implements OnInit, AfterViewInit {
     this.dataSourceErrores.sort = this.sortErrores;
     this.graficaErrores = new Grafica(document.getElementById('chartErrores'), 'Error RMS vs Error Máximo Permitido',
       ['Error RMS', 'Error Máximo Permitido'], [this.erroresRMS, this.erroresMaximosPermitidos], this.numerosIteraciones);
-    this.graficaSalidas = new Grafica(document.getElementById('chartSalidas'), 'Salida deseada (YD) vs Salida de la red (YR) -- Última iteración',
+    this.graficaSalidas = new Grafica(document.getElementById('chartSalidas'), 'Salida deseada (YD) vs Salida de la red (YR)',
       ['YD', 'YR'], [this.salidasDeseadas, this.salidasRed], []);
     this.actualizarGraficaSalidasDeseadas();
   }
@@ -132,25 +133,14 @@ export class StepEntrenamientoComponent implements OnInit, AfterViewInit {
 
   // Operaciones de entrenamiento de la red neuronal
 
-  entrenar(ConfigYParamsTraining, parametrosEntrada: ParametrosEntrada, configuracionRed: ConfiguracionRed) {
-    let indiceIteraciones = 1;
-    const rataDinamica = 0;
+  entrenar(errorMaximoPermitido, parametrosEntrada: ParametrosEntrada, configuracionRed: ConfiguracionRed) {
     this.inicializarValores();
-    while (indiceIteraciones <= ConfigYParamsTraining.numeroIteraciones) {
-      const erroresPatrones = this.calcularErroresVariosYSalidasRed(
-        parametrosEntrada,
-        rataDinamica,
-        ConfigYParamsTraining,
-        indiceIteraciones
-      );
+      const erroresPatrones = this.calcularErroresVariosYSalidasRed(parametrosEntrada, configuracionRed);
       const errorRMS = this.entrenamientoService.errorRMS(erroresPatrones);
-      this.tablaErroresRMS.push(new TablaErroresRMS(indiceIteraciones, errorRMS));
-      this.actualizarGraficaErrores(indiceIteraciones, errorRMS, ConfigYParamsTraining.errorMaximoPermitido);
+      this.tablaErroresRMS.push(new TablaErroresRMS(1, errorRMS));
+      this.actualizarGraficaErrores(1, errorRMS, errorMaximoPermitido);
       this.actualizarGraficaSalidas(parametrosEntrada.numeroSalidas, parametrosEntrada.numeroPatrones);
       this.mostrarContenidoErrores();
-      indiceIteraciones = this.tablaErroresRMS[indiceIteraciones - 1].error <= ConfigYParamsTraining.errorMaximoPermitido ?
-        ConfigYParamsTraining.numeroIteraciones + 1 : indiceIteraciones + 1;
-    }
     this.redEntrenada = true;
     this.toastr.info('La red neuronal ha sido entrenada correctamente', '¡Enhorabuena!');
   }
@@ -165,17 +155,24 @@ export class StepEntrenamientoComponent implements OnInit, AfterViewInit {
     this.inicializarPesosYUmbralesAnteriores();
   }
 
-  calcularErroresVariosYSalidasRed(parametrosEntrada: ParametrosEntrada, rataDinamica: number, ConfigYParamsTraining,
-    indiceIteraciones: number) {
-    rataDinamica = 1 / indiceIteraciones;
+  calcularErroresVariosYSalidasRed(parametrosEntrada: ParametrosEntrada, configuracionRed: ConfiguracionRed) {
     this.salidasRed = this.entrenamientoService.getInitSalidasRed(parametrosEntrada.numeroSalidas);
     const erroresPatrones: number[] = [];
+    const distanciasPorPatron: DistanciaPorPatron[] = [];
     let indicePatron = 0;
     parametrosEntrada.patrones.forEach(patron => {
+      configuracionRed.centrosRadiales.forEach(centroRadial => {
+        distanciasPorPatron.push(new DistanciaPorPatron());
+        let sumatoriaDistancia = 0;
+        for (let i = 0; i < configuracionRed.numeroEntradas; i++) sumatoriaDistancia += Math.pow(patron.valores[i] - centroRadial.valores[i],2);
+        let theta = Math.sqrt(sumatoriaDistancia);
+        let distanciaFinal = this.entrenamientoService.funcionBaseRadial(theta);
+        distanciasPorPatron[indicePatron].distancias.push(distanciaFinal);
+      });
       const erroresYSalidaRed = this.entrenamientoService.calcularErroresLineales(parametrosEntrada, this.pesosOptimos,
         this.umbrales, patron);
       const erroresLineales = erroresYSalidaRed.erroresLineales;
-      for (let i = 0; i < parametrosEntrada.numeroSalidas; i++) { this.salidasRed[i].push(erroresYSalidaRed.salidas[i]); }
+      for (let i = 0; i < configuracionRed.numeroCentrosRadiales; i++) { this.salidasRed[i].push(erroresYSalidaRed.salidas[i]); }
       const errorPatron = this.entrenamientoService.errorPatron(erroresLineales, parametrosEntrada.numeroSalidas);
       erroresPatrones.push(errorPatron);
       const pesosYUmbrales = {
@@ -183,7 +180,7 @@ export class StepEntrenamientoComponent implements OnInit, AfterViewInit {
         umbralesAnteriores: this.umbralesAnteriores
       };
       const pesosYUmbralesOptimos = this.entrenamientoService.obtenerPesosYUmbralesNuevos(parametrosEntrada, pesosYUmbrales,
-        ConfigYParamsTraining.rataAprendizaje, rataDinamica, erroresLineales, patron.valores, ConfigYParamsTraining.checkDelta);
+        erroresLineales, patron.valores);
       this.pesosAnteriores = pesosYUmbralesOptimos.pesosAnteriores;
       this.umbralesAnteriores = pesosYUmbralesOptimos.umbralesAnteriores;
       this.pesosOptimos = pesosYUmbralesOptimos.pesosOptimos;
@@ -209,8 +206,8 @@ export class StepEntrenamientoComponent implements OnInit, AfterViewInit {
     this.trainingNetwork.emit();
   }
 
-  guardarPesosYUmbrales(tipoDato) {
-    this.parametrosEntrenamientoService.postPesosOptimosYUmbrales(this.redEntrenada, this.pesosOptimos, this.umbrales, tipoDato);
+  guardarPesosYUmbrales() {
+    this.parametrosEntrenamientoService.postPesosOptimosYUmbrales(this.redEntrenada, this.pesosOptimos, this.umbrales);
   }
 
   guardarPesosYUmbralesEvent() {

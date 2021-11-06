@@ -1,30 +1,22 @@
-import { CapaIntermedia } from "./capaIntermedia";
-import { CapaSalida } from "./capaSalida";
+import { CentroRadial } from "./centroRadial";
 
 export class ConfiguracionRed {
-    numeroCapasIntermedias: any;
-    capasIntermedias: CapaIntermedia[];
-    capaSalida: CapaSalida;
+    numeroCentrosRadiales: number;
+    numeroEntradas: number;
+    valorMaximo: number;
+    valorMinimo: number;
+    centrosRadiales: CentroRadial[] = [];
 
-    constructor(numeroCapasIntermedias, capasIntermedias: CapaIntermedia[], capaSalida: CapaSalida) {
-        this.numeroCapasIntermedias = numeroCapasIntermedias;
-        this.capasIntermedias = capasIntermedias;
-        this.capaSalida = capaSalida;
+    constructor(numeroCentrosRadiales, numeroEntradas, valorMaximo, valorMinimo) {
+        this.numeroCentrosRadiales = numeroCentrosRadiales;
+        this.numeroEntradas = numeroEntradas;
+        this.valorMaximo = valorMaximo;
+        this.valorMinimo = valorMinimo;
+        this.generarCentroRadiales();
     }
 
-    funcionSigmoide(salidaSoma) {
-        return 1 / (1 + Math.exp(-salidaSoma));
-    }
-
-    funcionGausiana(salidaSoma) {
-        return Math.exp(Math.pow(-salidaSoma,2));
-    }
-
-    funcionTanhHyp(salidaSoma) {
-        return (2 / (1 + Math.exp(-2*salidaSoma))) - 1;
-    }
-
-    funcionLineal(salidaSoma) {
-        return salidaSoma;
+    generarCentroRadiales() {
+        for (let i = 0; i < this.numeroCentrosRadiales; i++)
+            this.centrosRadiales.push(new CentroRadial(this.numeroEntradas, this.valorMaximo, this.valorMinimo));
     }
 }

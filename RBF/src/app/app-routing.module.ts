@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { EntrenamientoComponent} from './PerceptronMulticapa/Componentes/entrenamiento/entrenamiento.component';
-import { SimulacionComponent} from './PerceptronMulticapa/Componentes/simulación/simulacion.component';
+import { EntrenamientoComponent} from './RBF/Componentes/entrenamiento/entrenamiento.component';
+import { SimulacionComponent} from './RBF/Componentes/simulación/simulacion.component';
 
 const routes: Routes = [
     {path: 'home', component: HomeComponent},

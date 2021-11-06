@@ -2,7 +2,7 @@
     padding-top: 3%; padding-bottom: 3%;
 }
 
-#TituloPerceptronMulticapa {
+#TituloRBF {
     color: white;
     text-align: center;
 }
@@ -12,7 +12,7 @@
     text-align: center;
 }
 
-#TextoPerceptronMulticapa {
+#TextoRBF {
     margin-top: 5%;
     color: white;
     text-align: justify;

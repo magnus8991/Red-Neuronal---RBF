@@ -47,16 +47,6 @@
                 </mat-card>
                 <br>
                 <mat-card>
-                    <label for="archivoEntradas">Tipo de Dato</label>
-                    <div class="form-group" style="text-align: center;">
-                        <mat-slide-toggle style="padding-right: 5%;" (ngModelChange)="toggleBinario($event)" [(ngModel)]="checkBinario">Binario
-                        </mat-slide-toggle>
-                        <mat-slide-toggle (ngModelChange)="toggleBipolar($event)" [(ngModel)]="checkBipolar">Bipolar
-                        </mat-slide-toggle>
-                    </div>
-                </mat-card>
-                <br>
-                <mat-card>
                     <div class="form-group" style="text-align: center;">
                         <button mat-raised-button (click)="reiniciarSimulacion()" color="warn">
                             <mat-icon matSuffix>delete</mat-icon>

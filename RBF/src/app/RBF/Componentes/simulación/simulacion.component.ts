@@ -38,7 +38,6 @@ export class SimulacionComponent implements OnInit, AfterViewInit {
   errorCheckFile = false;
   numeroEntradas = 0;
   numeroSalidas = 0;
-  tipoDato = '';
   umbrales: Umbrales;
   checkBinario = false;
   checkBipolar = false;
@@ -100,7 +99,6 @@ export class SimulacionComponent implements OnInit, AfterViewInit {
         }
         this.mostrarContenidoUmbralesOptimos();
       }
-      this.tipoDato = this.parametrosEntrenamientoService.getTipoDato();
     };
     reader.readAsText(inputFile, 'ISO-8859-1');
   }
@@ -128,18 +126,6 @@ export class SimulacionComponent implements OnInit, AfterViewInit {
     this.dataSourceUmbralesOptimos = new MatTableDataSource<Umbrales>([this.umbrales]);
     this.dataSourceUmbralesOptimos.paginator = this.paginatorPesosOptimos;
     this.dataSourceUmbralesOptimos.sort = this.sortPesosOptimos;
-  }
-
-  // Operaciones de los slide toggles de la funcion de activacion
-
-  toggleBinario(event) {
-    if (event) { this.checkBipolar = false; }
-    this.tipoDato = 'binario';
-  }
-
-  toggleBipolar(event) {
-    if (event) { this.checkBinario = false; }
-    this.tipoDato = 'bipolar';
   }
 
   // Operaciones de los slide toggles de los pesos sinapticos
@@ -285,16 +271,11 @@ export class SimulacionComponent implements OnInit, AfterViewInit {
       this.toastr.warning('Verifique los valores de las entradas');
       return;
     }
-    if (!this.validaciones.checkAlgoritmTraining(this.checkBinario, this.checkBipolar)) {
-      this.toastr.warning('Verifique la configuración del tipo de dato');
-      return;
-    }
     const salidasRed = this.simulacionService.simular(
       this.entradas,
       this.salidasRed.length,
       this.pesosOptimos,
-      this.umbrales,
-      this.tipoDato
+      this.umbrales
     );
     this.salidasRed = salidasRed ? salidasRed : this.salidasRed;
   }

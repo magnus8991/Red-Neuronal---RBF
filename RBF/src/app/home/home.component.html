@@ -1,43 +1,24 @@
 <div class="cuerpo">
     <div class="container contenido" id="cuerpo">
 
-        <h1 id="TituloPerceptronMulticapa">
-            <b>Perceptron Multicapa</b>
+        <h1 id="TituloRBF">
+            <b>RNA - Función de base radial</b>
         </h1>
 
-        <div id="TextoPerceptronMulticapa">
+        <div id="TextoRBF">
             <p>
-                La arquitectura más simple es la llamada Perceptrón Multicapa o Multilayer Perceptron (MLP), aunque
-                debemos tener en cuenta que la presencia de la palabra "perceptrón" en este nombre no es más que una
-                herencia histórica pues, de hecho, un perceptrón multicapa no está formado por perceptrones, sino por
-                neuronas sigmoideas o por neuronas con otro tipo de función de activación (ReLu, etc.), tal y como
-                veremos más adelante.
+                Las redes de base radial son un tipo de redes de neuronas artificiales que calculan la salida de la
+                función en función de la distancia a un punto denominado centro. Al igual que con los perceptrones
+                multicapa, sirven como aproximadores universales.
             </p>
             <p>
-                <li>
-                    En esta arquitectura tenemos -por convención- una capa de neuronas de entrada situada a la izquierda
-                    que, en realidad, no aplican ninguna función a los valores de entrada a la red. Es simplemente la
-                    forma
-                    que tenemos de indicar que los valores de entrada llegan de alguna forma a la red neuronal. Es
-                    decir, no
-                    son neuronas artificiales, aunque se representen como tales en el esquema anterior. En esta capa
-                    cada
-                    "neurona" recibe un único valor de entrada.
-                </li>
-            </p>
-            <p>
-                <li>
-                    A continuación, tenemos una o más capas de neuronas en las que cada neurona está conectada con todas
-                    las
-                    neuronas de la capa anterior (o, dicho con otras palabras, los valores de entrada de una neurona son
-                    todos los valores devueltos por las neuronas de la capa anterior). Son las llamadas "capas ocultas".
-                </li>
-            </p>
-            <p>
-                <li>
-                    Por último, tenemos una capa de salida formada por una o más neuronas, en función del tipo de
-                    análisis
-                    que se realice (análisis de regresión, de clasificación binaria o de clasificación multiclase).</li>
+                El aprendizaje consiste en la determinación de los centros, desviaciones y pesos de la capa oculta a la
+                capa de salida. Como las capas de la red realizan diferentes tareas, se separarán los parámetros de la
+                capa oculta de la capa de salida para optimizar el proceso. De esta forma, los centros y las
+                desviaciones siguen un proceso guiado por una optimización en el espacio de entrada, mientras que los
+                pesos siguen una optimización sobre la base de las salidas que se desean obtener.
+
+                Los dos métodos de aprendizaje más utilizados son el método híbrido y el método totalmente supervisado.
             </p>
         </div>
 
@@ -47,35 +28,44 @@
             <b>Características</b>
         </h2>
 
-        <div id="TextoPerceptronMulticapa">
+        <div id="TextoRBF">
             <p>
-                <li>Las funciones de transferencia de los elementos de procesado (neuronas) han de ser derivables.</li>
+                <li>Las redes de base radial tienen sus orígenes a finales de los años 80.</li>
+            </p>
+            <p>
+                <li>Son redes de tipo multicapa que tienen conexiones hacia delante y que solo tienen una capa oculta.
+                    Mientras que las neuronas ocultas poseen carácter local, las neuronas de salida realizan una
+                    combinación lineal de las activaciones de las neuronas ocultas.</li>
+            </p>
+            <p>
+                <li>Este tipo de redes construyen aproximaciones que son combinaciones lineales de múltiples funciones
+                    locales no lineales.</li>
+            </p>
+            <p>
+                <li>Entre sus aplicaciones se encuentran análisis de series temporales, procesamiento de imágenes,
+                    reconocimiento automático del habla, diagnósticos médicos, etc.</li>
             </p>
         </div>
 
         <br>
 
         <h2 id="TituloAprendizaje">
-            <b>Limitaciones</b>
+            <b>Arquitectura</b>
         </h2>
 
-        <div id="TextoPerceptronMulticapa">
-            <li>El Perceptrón Multicapa no extrapola bien, es decir, si la red se entrena mal o de manera insuficiente,
-                las salidas pueden ser imprecisas.</li>
-            <li>La existencia de mínimos locales en la función de error dificulta considerablemente el entrenamiento,
-                pues una vez alcanzado un mínimo el entrenamiento se detiene aunque no se haya alcanzado la tasa de
-                convergencia fijada.</li>
-        </div>
-
-        <br>
-
-        <h2 id="TituloAprendizaje">
-            <b>Aplicaciones</b>
-        </h2>
-
-        <div id="TextoPerceptronMulticapa">
-            <li>El perceptrón multicapa (de aquí en adelante MLP, MultiLayer Perceptron) se utiliza para resolver
-                problemas de asociación de patrones, segmentación de imágenes, compresión de datos, etc.</li>
+        <div id="TextoRBF">
+            <p>Cada red de base radial tienen 3 capas diferentes en total:</p>
+            <p>
+                <li>Capa de entrada: Transmiten las señales de entrada a las neuronas ocultas sin realizar
+                    procesamiento, es decir, las conexiones de la capa de entrada a la capa oculta no llevan pesos
+                    asociados.</li>
+            </p>
+            <p>
+                <li>Capa oculta: Realizan una transformación local y no lineal de dichas señales.</li>
+            </p>
+            <p>
+                <li>Capa de salida: Realiza una combinación lineal de las activaciones de las neuronas ocultas.</li>
+            </p>
         </div>
     </div>
 </div>

@@ -15,16 +15,18 @@ export class GetterEntradasService {
     private toastr: ToastrService
   ) { }
 
-  getParametrosEntrada(inputFile): ParametrosEntrada {
+  getParametrosEntrada(inputFile): any {
     const parametros = new ParametrosEntrada();
     parametros.numeroEntradas = this.getNumeroEntradas(inputFile);
     parametros.numeroSalidas = this.getNumeroSalidasDeseadas(inputFile);
     parametros.numeroPatrones = this.getNumberoPatrones(inputFile);
     parametros.encabezados = this.getEncabezados(parametros.numeroEntradas, parametros.numeroSalidas);
-    const patronesYTipoDato = this.getPatronesYTipodato(inputFile);
-    parametros.patrones = patronesYTipoDato.patrones;
-    parametros.tipoDato = patronesYTipoDato.tipoDato;
-    return parametros;
+    const patronesYError = this.getPatronesYError(inputFile);
+    parametros.patrones = patronesYError.patrones;
+    parametros.error = patronesYError.error;
+    parametros.valorMaximo = patronesYError.valorMaximo;
+    parametros.valorMinimo = patronesYError.valorMinimo;
+    return {parametrosEntrada: parametros };
   }
 
   getEncabezados(entradas: number, salidas: number): string[] {
@@ -65,8 +67,9 @@ export class GetterEntradasService {
     return textFile.split('\n')[0];
   }
 
-  getPatronesYTipodato(textFile): any {
-    let tipoDato = '';
+  getPatronesYError(textFile): any {
+    let valorMaximo = 0;
+    let valorMinimo = 0;
     let error = false;
     const patrones: Patron[] = [];
     const lineas: string[] = textFile.split('\n');
@@ -78,25 +81,27 @@ export class GetterEntradasService {
         if (isNaN(+entrada)) error = true;
         let valor = Number.isInteger(entrada) ? parseInt(entrada) : parseFloat(entrada);
         valores.push(valor);
-        tipoDato = Number.isInteger(valor) ? (valor > 0 ? (valor > 1 ? 'entero' : tipoDato) : (tipoDato.includes('real') ? 'real' :
-          tipoDato.includes('entero') ? 'entero' : (valor === 0 ? (tipoDato.includes('') || tipoDato.includes('binario') ? 'binario' :
-          tipoDato) : valor === -1 ? (tipoDato.includes('') || tipoDato.includes('bipolar') ? 'bipolar' : tipoDato) : 
-          tipoDato.includes('real') ? 'real' : 'entero'))) : 'real';
+        valorMinimo = this.obtenerValorMinimo(indice, valorMinimo, valor);
+        valorMaximo = this.obtenerValorMaximo(indice, valorMaximo, valor);
       });
       this.getSalidas(linea).forEach(salida => {
         if (isNaN(+salida))  error = true;
         let valor = Number.isInteger(salida) ? parseInt(salida) : parseFloat(salida);
         valores.push(valor);
-        tipoDato = Number.isInteger(valor) ? (valor > 0 ? (valor > 1 ? 'entero' : tipoDato) : (tipoDato.includes('real') ? 'real' :
-          tipoDato.includes('entero') ? 'entero' : (valor === 0 ? (tipoDato.includes('') || tipoDato.includes('binario') ? 'binario' :
-            tipoDato) : valor === -1 ? (tipoDato.includes('') || tipoDato.includes('bipolar') ? 'bipolar' : tipoDato) : 
-            tipoDato.includes('real') ? 'real' : 'entero'))) : 'real';
+        valorMinimo = this.obtenerValorMinimo(2, valorMinimo, valor);
+        valorMaximo = this.obtenerValorMaximo(2, valorMaximo, valor);
       });
       patrones.push(new Patron(indice, valores));
     });
-    tipoDato = tipoDato === '' ? 'entero' : tipoDato;
-    if (error) { tipoDato = null }
-    return { patrones: patrones, tipoDato: tipoDato };
+    return { patrones: patrones, error: error, valorMaximo: valorMaximo, valorMinimo: valorMinimo };
+  }
+
+  obtenerValorMinimo(indice, valorMinimo, valor): number {
+    return indice == 1 ? valor : valor < valorMinimo ? valor : valorMinimo;
+  }
+
+  obtenerValorMaximo(indice, valorMaximo, valor): number {
+    return indice == 1 ? valor : valor > valorMaximo ? valor : valorMaximo;
   }
 
   getPesosSinapticosFile(inputFile, numeroFilas: number, numeroColumnas: number): MatrizPesosSinapticos {

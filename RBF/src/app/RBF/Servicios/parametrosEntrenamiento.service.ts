@@ -36,14 +36,13 @@ export class ParametrosEntrenamientoService {
     return !pesosOptimos ? null : !umbrales ? null : data;
   }
 
-  postPesosOptimosYUmbrales(redEntrenada: boolean, pesosOptimos: MatrizPesosSinapticos, umbrales: Umbrales, tipoDato: string) {
+  postPesosOptimosYUmbrales(redEntrenada: boolean, pesosOptimos: MatrizPesosSinapticos, umbrales: Umbrales) {
     if (!redEntrenada) {
       this.toastr.warning('Debe entrenar la red primero', '¡Advertencia!');
       return;
     }
     localStorage.setItem('PesosOptimos', JSON.stringify(pesosOptimos));
     localStorage.setItem('UmbralesOptimos', JSON.stringify(umbrales));
-    localStorage.setItem('TipoDato', tipoDato);
     this.toastr.info('Pesos óptimos y umbrales guardados correctamente (se almacenaron en localStorage)', '¡Operación exitosa!');
   }
 

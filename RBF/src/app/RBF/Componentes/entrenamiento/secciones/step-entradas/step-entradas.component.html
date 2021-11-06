@@ -53,7 +53,7 @@
 </div>
 <br>
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-12">
         <mat-card>
             <label for="archivoEntradas">Tabla de Patrones</label>
             <div class="table-responsive mat-elevation-z8">
@@ -72,36 +72,14 @@
             </div>
         </mat-card>
     </div>
-    <div class="col-md-4">
-        <mat-card>
-            <label for="archivoEntradas">Algoritmo de Entrenamiento</label>
-            <div class="form-group" style="text-align: center;">
-                <mat-slide-toggle (ngModelChange)="toggleDelta($event)" [(ngModel)]="checkDelta">Regla Delta
-                </mat-slide-toggle>
-            </div>
-            <div class="form-group" style="text-align: center;">
-                <mat-slide-toggle (ngModelChange)="toggleDeltaModificada($event)" [(ngModel)]="checkDeltaModificada">Regla Delta
-                    Modificada
-                </mat-slide-toggle>
-            </div>
-        </mat-card>
-        <br>
+</div>
+<br>
+<div class="row">
+    <div class="col-md-6">
         <form [formGroup]=formParametrosEntrenamiento>
             <mat-card>
                 <label for="archivoEntradas">Parámetros de Entrenamiento</label>
                 <div class="form-group" style="text-align: center;">
-                    <mat-form-field class="example-full-width" appearance="legacy" aria-disabled="true">
-                        <mat-label>No. Iteraciones</mat-label>
-                        <input type="number" matInput placeholder="Numero de Iteraciones" name="numeroIteraciones"
-                            formControlName="numeroIteraciones" min="1" />
-                        <mat-icon matSuffix>repeat</mat-icon>
-                    </mat-form-field>
-                    <mat-form-field class="example-full-width" appearance="legacy" aria-disabled="true">
-                        <mat-label>Rata de Aprendizaje</mat-label>
-                        <input type="number" matInput placeholder="Rata de Aprendizaje" name="rataAprendizaje"
-                            formControlName="rataAprendizaje" min="0.0" max="1.0" step="0.1" />
-                        <mat-icon matSuffix>psychology</mat-icon>
-                    </mat-form-field>
                     <mat-form-field class="example-full-width" appearance="legacy" aria-disabled="true">
                         <mat-label>Error Máx. Permitido</mat-label>
                         <input type="number" matInput placeholder="Error Máximo Permitido" name="errorMaximoPermitido"
@@ -112,20 +90,12 @@
             </mat-card>
         </form>
     </div>
-
-
-</div>
-<br>
-<div class="row">
     <div class="col-md-6" style="text-align: center;">
         <mat-card>
             <button mat-raised-button (click)="reiniciarParametrosYConfiguracion()" color="warn">
                 <mat-icon matSuffix>delete</mat-icon> Borrar Parámetros y Configuración
             </button>
-        </mat-card>
-    </div>
-    <div class="col-md-6" style="text-align: center;">
-        <mat-card>
+            <br><br>
             <button mat-raised-button (click)="reiniciarEntrenamiento()" color="rollback">
                 <mat-icon matSuffix>restart_alt</mat-icon> Reiniciar
                 Entrenamiento
